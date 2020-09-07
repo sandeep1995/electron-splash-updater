@@ -1,0 +1,32 @@
+{
+  "name": "electron-splash-updater",
+  "version": "0.0.1",
+  "description": "Discord like splash screen updater for any electron apps",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sandeep1995/electron-splash-updater.git"
+  },
+  "keywords": [
+    "electron",
+    "autoupdater",
+    "splashscreen"
+  ],
+  "author": "Sandeep Acharya <i.am.sandeep.acharya@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sandeep1995/electron-splash-updater/issues"
+  },
+  "homepage": "https://github.com/sandeep1995/electron-splash-updater#readme",
+  "dependencies": {
+    "electron-updater": "4.3.5"
+  },
+  "devDependencies": {
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0"
+  }
+}
