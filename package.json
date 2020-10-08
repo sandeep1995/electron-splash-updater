@@ -22,11 +22,15 @@
   },
   "homepage": "https://github.com/sandeep1995/electron-splash-updater#readme",
   "dependencies": {
+    "electron-store": "^6.0.1",
     "electron-updater": "4.3.5"
   },
   "devDependencies": {
     "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0"
+  },
+  "peerDependencies": {
+    "electron": "^10.1.3"
   }
 }

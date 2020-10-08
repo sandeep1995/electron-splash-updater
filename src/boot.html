@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Splash Updater</title>
+    <style>
+      html,
+      body {
+        background: #070e1d;
+        font-family: "Maison Neue", sans-serif;
+        font-size: 16px;
+        line-height: 24px;
+        color: #bbc9e0;
+      }
+
+      #container {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        left: 50%;
+        top: 50%;
+        padding: 24px;
+        transform: translate(-50%, -50%);
+      }
+
+      #status {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 8px;
+        margin-top: -16px;
+      }
+
+      #progress-container {
+        font-size: 14px;
+        line-height: 21px;
+        color: white;
+      }
+
+      .bull {
+        margin: 0 4px;
+      }
+
+      #progress-container #speed {
+        color: #7986a3;
+      }
+
+      #progressbar {
+        width: 200px;
+        background: #343f57;
+        border-radius: 8px;
+        margin-top: 12px;
+      }
+
+      #progressbar > div {
+        width: 0%;
+        height: 8px;
+        background: #24e8cc;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="status">Starting to update...</div>
+      <div id="progress-container">
+        <span id="percent">0%</span>
+        <span class="bull">&bull;</span>
+        <span id="speed">0 MB/s</span>
+        <div id="progressbar">
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      void (function () {
+        const statusDom = document.getElementById("status");
+        const progressBarContainer = document.getElementById(
+          "progress-container"
+        );
+        const speed = document.getElementById("speed");
+        const percent = document.getElementById("percent");
+
+        const progressBar = document.querySelector("#progressbar>div");
+
+        progressBarContainer.style.display = "none";
+
+        function handleStatusMsg(data) {
+          progressBarContainer.style.display = "none";
+          statusDom.style.display = "block";
+          let { status } = data;
+          switch (status) {
+            case "checking-for-update":
+              statusDom.textContent = "Checking for updates...";
+              break;
+
+            case "update-not-available":
+              statusDom.textContent = "Starting...";
+              break;
+
+            case "failed":
+              statusDom.textContent = "Failed to apply update! Starting...";
+              break;
+
+            case "update-downloaded":
+              statusDom.textContent = "Applying update...";
+              break;
+            case "downloading":
+              statusDom.textContent = "New version available. Downloading...";
+              break;
+
+            default:
+              console.log("UNKNOWN STATUS", data);
+          }
+        }
+
+        function handleDownloading(data) {
+          let { speed, percentage } = data;
+          progressBarContainer.style.display = "block";
+          statusDom.style.display = "none";
+          speed.textContent = data.speed + "/s";
+          percent.textContent = data.percentage + "%";
+          progressBar.style.width = `${data.percentage}%`;
+        }
+
+        const requestMap = {};
+        window.addEventListener("__MAIN_MESSAGE__", (event) => {
+          const data = event.detail;
+          const { type, value } = data;
+
+          switch (type) {
+            case "splashUpdater/status": {
+              handleStatusMsg(value);
+              break;
+            }
+            case "splashUpdater/downloading": {
+              handleDownloading(value);
+              break;
+            }
+            default:
+              console.log("Received unhandled main message", data);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
