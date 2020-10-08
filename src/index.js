@@ -19,7 +19,7 @@ class SplashUpdater extends EventEmitter {
     return true;
   }
 
-  setOptions(options) {
+  setOptions(options = {}) {
     this.autoUpdater = options.autoUpdater || autoUpdater;
     this.backgroundColor = options.backgroundColor || '#2c3e50';
     this.foregroundColor = options.foregroundColor || '#ffffff';
